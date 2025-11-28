@@ -12,3 +12,16 @@ export const getUser=async(req,res)=>{
         res.status(500).send("internal server error")
     }
 }
+
+
+
+export const addUser=async(req,res)=>{
+    const{email,password}=req.body
+    try {
+        const newUser=new User({email,password})
+        newUser.save()
+        res.send("user added successfully")
+    } catch (error) {
+          res.status(500).send("internal server error")
+    }
+}
