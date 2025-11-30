@@ -1,19 +1,24 @@
 import mongoose from "mongoose";
 const postSchema= new mongoose.Schema({
     author:{
-        //we should use user here and populate also if needed
-        type:'String',
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
     },
     images:{
-        type:[String]
+        type:[String],
+        required:true
     },
     likes:{
         type:Number,
     },
+    description:{
+        type:String,
+    },
     comments:{
-        type:[String]
+       type:[String]
+
     },
 
-})
+},{timestamps:true})
 const Post=mongoose.model('Post',postSchema)
 export default Post

@@ -1,3 +1,3 @@
-export const getFeed=(req,res)=>{
-    
+export const  addPost=(req,res)=>{
+    const{images,description}=req.body
 }

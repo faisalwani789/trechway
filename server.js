@@ -19,7 +19,7 @@ app.use("/api/v1/register",userRouter)
 app.use("/api/v1/user",authMiddleware,userProtectedRouter)
 const port=5000
 
-app.get('/',(req,res)=>{
-    res.send("welcome to trechway")
-})
+// app.get('/',(req,res)=>{
+//     res.send("welcome to trechway")
+// })
 
