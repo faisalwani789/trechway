@@ -46,3 +46,17 @@ export const signIn=async(req,res)=>{
           res.status(500).send(error.message)
     }
 }
+export const updateUser=async(req,res)=>{
+    const allowedChanges=['password','userName','profilePic','isPrivate'] //data sanitization
+    const {id}=req.user
+    try {
+         Object.keys(req.body).every(k=>{
+        if(!allowedChanges.includes(k)) throw new Error('changes not allowed')
+        })
+        const user=await User.findByIdAndUpdate(id,req.body,{runValidators:true,returnDocument:'after'})
+        res.send(user)
+    } catch (error) {
+        res.send(error.message)
+    }
+   
+}
