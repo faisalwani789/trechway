@@ -27,8 +27,8 @@ export const addUser = async (req, res) => {
         const allowed = Object.keys(req.body).every(k => allowedValues.includes(k))
         console.log(allowed)
         if (!allowed) throw new Error('not allowed')
-        const hash = await bcrypt.hash(password, 10)
-        const newUser = new User({ email, password: hash })
+
+        const newUser = new User({ email, password })
         newUser.save()
         res.send("user added successfully")
     } catch (error) {
@@ -48,11 +48,10 @@ export const signIn = async (req, res) => {
             return res.status(400).send("no user found")
         }
 
-        const pass = await bcrypt.compare(password, user.password)
-        if (!pass) return res.status(400).send("invalid credentials")
-        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' })
-
-
+        const isValidPassword=user.comparePassword(password)
+        if (!isValidPassword) return res.status(400).send("invalid credentials")
+        const token = user.getJwt()
+        // res.cookie('token',token)
         res.json({ message: 'success', token: token })
     } catch (error) {
 
