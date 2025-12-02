@@ -27,7 +27,9 @@ export const addUser = async (req, res) => {
         const allowed = Object.keys(req.body).every(k => allowedValues.includes(k))
         console.log(allowed)
         if (!allowed) throw new Error('not allowed')
-
+        const user=await User.findOne({email:email})  
+        
+        if(user)throw new Error('user already registered')
         const newUser = new User({ email, password })
         newUser.save()
         res.send("user added successfully")

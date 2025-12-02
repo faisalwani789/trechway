@@ -46,10 +46,11 @@ userSchema.methods.getJwt = function () {
 userSchema.methods.comparePassword=async function(inputPassword){
     return await bcrypt.compare(inputPassword,this.password)
 }
-userSchema.pre('save',async function (next) {
-    if(!this.isModified('password')) return next();
-    this.password=await bcrypt.hash(this.password,10)
-    next()
+userSchema.pre("save", async function (next) {
+    if (!this.isModified('password')) return ;
+    this.password = await bcrypt.hash(this.password, 10)
+    // next()
+
 })
 const User = mongoose.model("User", userSchema)
 export default User
