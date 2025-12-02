@@ -1,8 +1,8 @@
 import express from 'express'
 import { configDotenv } from 'dotenv'
 import connectDb from './src/config/database.js'
-import userRouter from './src/router/user.routes.js'
-import userProtectedRouter from './src/router/user.protected.routes.js'
+import authRouter from './src/router/auth.routes.js'
+import profileRouter from './src/router/profile.routes.js'
 import { authMiddleware } from './src/middlewares/auth.middleware.js'
 const app=express()
 app.use(express.json())
@@ -15,8 +15,8 @@ connectDb().then(()=>{
 }).catch((err)=>{
     console.log('db error'+err.message)
 })
-app.use("/api/v1/register",userRouter)
-app.use("/api/v1/user",authMiddleware,userProtectedRouter)
+app.use("/api/v1/register",authRouter)
+app.use("/api/v1/user",authMiddleware,profileRouter)
 const port=5000
 
 // app.get('/',(req,res)=>{
