@@ -17,5 +17,17 @@ export const loginValidator = [
 
   body('password')
     .notEmpty()
-    .withMessage('Password is required'),
+    .withMessage('Password is required')
+    .isLength({ min: 8 })
+    .withMessage('Password must be at least 6 characters'),
 ];
+export const passwordValidator=[
+  body('password')
+    .notEmpty().withMessage('Password is required')
+    .isLength({ min: 8 }).withMessage('Password must be at least 6 characters')
+    .isStrongPassword(),
+  body('confirmPassword').custom((value,{req})=>{
+        if(value!==req.body.password) throw new Error("passwords do not match")
+          return true
+      })
+]
