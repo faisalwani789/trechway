@@ -1,11 +1,11 @@
 import { Router } from "express"
+import User from "../Models/user.model.js"
 const router=Router()
 
-export const getUser = async (req, res) => {
+export const getProfile = async (req, res) => {
 
-    const { id } = req.params
+    const { id } = req.user
     try {
-
         const user = await User.findById(id)
         if (!user) {
             return res.status(400).send("no user found")
@@ -15,7 +15,7 @@ export const getUser = async (req, res) => {
         res.status(500).send("internal server error")
     }
 }
-export const updateUser = async (req, res) => {
+export const updateProfile = async (req, res) => {
     const allowedChanges = ['password', 'userName', 'profilePic', 'isPrivate'] //data sanitization
     const { id } = req.user
     try {

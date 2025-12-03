@@ -16,7 +16,7 @@ export const addUser = async (req, res) => {
         
         if(user)throw new Error('user already registered')
         const newUser = new User({ email, password })
-        newUser.save()
+        await newUser.save()
         res.send("user added successfully")
     } catch (error) {
         res.status(500).send(error.message)
@@ -24,6 +24,7 @@ export const addUser = async (req, res) => {
 }
 export const signIn = async (req, res) => {
     const errors = validationResult(req)
+    
     const allowedValues = ['email', 'password'] //data sanitization
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
     const { email, password } = req.body
@@ -35,17 +36,26 @@ export const signIn = async (req, res) => {
             return res.status(400).send("no user found")
         }
 
-        const isValidPassword=user.comparePassword(password)
+        const isValidPassword=await user.comparePassword(password)
+        console.log(isValidPassword)
         if (!isValidPassword) return res.status(400).send("invalid credentials")
         const token = user.getJwt()
-        // res.cookie('token',token)
+        
+        res.cookie('token',token)
         res.json({ message: 'success', token: token })
     } catch (error) {
 
         res.status(500).send(error.message)
+        console.log(error)
     }
 }
 
 export const logout=async(req,res)=>{
+    try {
+          res.clearCookie('token');
+    res.status(200).json({success:true,message:'user logged out'})
+    } catch (error) {
+          res.json(200).json({success:false,message:error.message})
+    }
    
 }

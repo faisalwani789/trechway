@@ -4,8 +4,10 @@ import connectDb from './src/config/database.js'
 import authRouter from './src/router/auth.routes.js'
 import profileRouter from './src/router/profile.routes.js'
 import { authMiddleware } from './src/middlewares/auth.middleware.js'
+import cookieParser from 'cookie-parser'
 const app=express()
 app.use(express.json())
+app.use(cookieParser())
 configDotenv()
 connectDb().then(()=>{
     console.log("connection to db is succesfull")
@@ -15,8 +17,8 @@ connectDb().then(()=>{
 }).catch((err)=>{
     console.log('db error'+err.message)
 })
-app.use("/api/v1/register",authRouter)
-app.use("/api/v1/user",authMiddleware,profileRouter)
+app.use("/api/v1/auth",authRouter)
+app.use("/api/v1/profile",authMiddleware,profileRouter)
 const port=5000
 
 // app.get('/',(req,res)=>{
