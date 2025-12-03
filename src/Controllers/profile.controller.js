@@ -28,7 +28,7 @@ export const updateProfile = async (req, res) => {
         //we can also update user by using .doc.save() -> first by finding and then applying new values from body->this helps to run validations schema automaticlly without writing runValidators, runs pre/post save hooks
         res.send(user)
     } catch (error) {
-        res.send(error.message)
+        res.status(500).json({success:false,message:error.message})
     }
 
 }

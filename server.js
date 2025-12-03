@@ -3,6 +3,7 @@ import { configDotenv } from 'dotenv'
 import connectDb from './src/config/database.js'
 import authRouter from './src/router/auth.routes.js'
 import profileRouter from './src/router/profile.routes.js'
+import requestRouter from './src/router/requests.routes.js'
 import { authMiddleware } from './src/middlewares/auth.middleware.js'
 import cookieParser from 'cookie-parser'
 const app=express()
@@ -19,6 +20,7 @@ connectDb().then(()=>{
 })
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/profile",authMiddleware,profileRouter)
+app.use("/api/v1/request",authMiddleware,requestRouter)
 const port=5000
 
 // app.get('/',(req,res)=>{
