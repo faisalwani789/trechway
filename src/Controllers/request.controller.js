@@ -3,9 +3,8 @@ import User from "../Models/user.model.js"
 export const ConnRequest = async (req, res) => {
     const{userId,status}=req.params
     const {id}=req.user
-    const allowedChanges=['pending','rejected']
-    
-    
+    const allowedChanges=['pending']
+
     try {
       
           const validChange=allowedChanges.includes(status)
@@ -28,4 +27,27 @@ export const ConnRequest = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
+}
+export const ReviewConnRequest=async (req,res)=>{
+     const{requestId,status}=req.params
+    const {id}=req.user
+    const allowedChanges=['accepted','rejected']
+
+    try {
+        //validate the requestId
+        const request=await ConnectionRequest.findOne({_id:requestId})
+        if(!request) return res.status(404).json({message:'no request found'})
+
+        //validate the status send by user
+        const validChange=allowedChanges.includes(status)
+        if(!validChange)throw new Error("changes not allowed")
+        
+        
+
+
+        }
+    catch(error){
+        res.status(500).json({success:false,message:error.message})
+    }
+
 }
