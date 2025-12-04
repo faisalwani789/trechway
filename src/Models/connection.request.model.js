@@ -18,5 +18,10 @@ const requestSchema=new mongoose.Schema({
     }
 },{timestamps:true})
 
+requestSchema.pre("save",function(next){
+      //remove connections to self, user should not able to make a request to self id
+        if(this.fromUserId.equals(this.toUserId))throw new Error("request to self error")   
+        next()
+})
 const ConnectionRequest=mongoose.model('ConnectionRequest',requestSchema)
 export default ConnectionRequest
