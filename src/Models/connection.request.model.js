@@ -17,6 +17,7 @@ const requestSchema=new mongoose.Schema({
         }
     }
 },{timestamps:true})
+requestSchema.index({fromUserId:1,toUserId:1})
 
 requestSchema.pre("save",function(next){
       //remove connections to self, user should not able to make a request to self id
