@@ -19,11 +19,11 @@ export const ConnRequest = async (req, res) => {
             {toUserId:userId,fromUserId:id},
             {toUserId:id, fromUserId:userId}
         ]})
-        if(connExists)return res.status(200).json({message:'connection request already exists',connExists})
+        if(connExists)return res.status(400).json({message:'connection request already exists',connExists})
 
         const request=new ConnectionRequest({toUserId:userId,fromUserId:id,status})
         const data= await request.save()
-        res.status(200).json({ success: true, message: 'connection request sent',data })
+        res.status(201).json({ success: true, message: 'connection request sent',data })
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
@@ -34,15 +34,19 @@ export const ReviewConnRequest=async (req,res)=>{
     const allowedChanges=['accepted','rejected']
 
     try {
-        //validate the requestId
-        const request=await ConnectionRequest.findOne({_id:requestId})
-        if(!request) return res.status(404).json({message:'no request found'})
-
+       
         //validate the status send by user
         const validChange=allowedChanges.includes(status)
         if(!validChange)throw new Error("changes not allowed")
         
+         //validate the requestId
+        const request=await ConnectionRequest.findOne({_id:requestId,toUserId:id,status:'pending'})
+        if(!request) return res.status(404).json({message:'no request found'})
         
+        request.status=status //after successfull validations change the status as provided by the user
+        const updatedRequest=await request.save()
+
+        res.status(201).json({success:true,message:`request ${status} successfully`,updatedRequest})
 
 
         }
