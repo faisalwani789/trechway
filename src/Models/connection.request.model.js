@@ -2,17 +2,19 @@ import mongoose from "mongoose";
 const requestSchema=new mongoose.Schema({
     fromUserId:{
         type:mongoose.Schema.Types.ObjectId,
+        ref:'User',
         required:true
     },
     toUserId:{
           type:mongoose.Schema.Types.ObjectId,
+          ref:'User',
           required:true
     },
     status:{
         type:String,
         required:true,
         enum:{
-            values:['accepted','rejected','pending'],
+            values:['accepted','rejected','interested'],
             message:`{VALUE} is of type incorrect`
         }
     }

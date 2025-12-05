@@ -10,7 +10,7 @@ export const addUser = async (req, res) => {
     const { email, password } = req.body
     try {
         const allowed = Object.keys(req.body).every(k => allowedValues.includes(k))
-        console.log(allowed)
+       
         if (!allowed) throw new Error('not allowed')
         const user=await User.findOne({email:email})  
         
@@ -37,7 +37,7 @@ export const signIn = async (req, res) => {
         }
 
         const isValidPassword=await user.comparePassword(password)
-        console.log(isValidPassword)
+
         if (!isValidPassword) return res.status(400).send("invalid credentials")
         const token = user.getJwt()
         
@@ -46,7 +46,7 @@ export const signIn = async (req, res) => {
     } catch (error) {
 
         res.status(500).send(error.message)
-        console.log(error)
+        
     }
 }
 
