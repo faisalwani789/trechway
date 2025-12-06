@@ -5,6 +5,7 @@ import authRouter from './src/router/auth.routes.js'
 import profileRouter from './src/router/profile.routes.js'
 import requestRouter from './src/router/requests.routes.js'
 import userRouter from './src/router/user.routes.js'
+import feedRouter from './src/router/feed.routes.js'
 import { authMiddleware } from './src/middlewares/auth.middleware.js'
 import cookieParser from 'cookie-parser'
 
@@ -26,4 +27,5 @@ app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/profile",authMiddleware,profileRouter)
 app.use("/api/v1/request",authMiddleware,requestRouter)
 app.use("/api/v1/user",authMiddleware,userRouter)
+app.use("api/v1/feed",authMiddleware,feedRouter)
 

@@ -1,24 +1,31 @@
 import mongoose from "mongoose";
-const postSchema= new mongoose.Schema({
-    author:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
-    },
-    images:{
-        type:[String],
+const postSchema = new mongoose.Schema({
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required:true
     },
-    likes:{
-        type:Number,
-    },
-    description:{
-        type:String,
-    },
-    comments:{
-       type:[String]
-
+    images: {
+        type: [String],
+        required: true
     },
 
-},{timestamps:true})
-const Post=mongoose.model('Post',postSchema)
+    metrics: {
+        likes: {
+            type: Number,
+        },
+        comments: {
+            type: [String]
+        },
+    },
+    description: {
+        type: String,
+    },
+
+    tags: {
+        type: [String]
+    }
+
+}, { timestamps: true })
+const Post = mongoose.model('Post', postSchema)
 export default Post
