@@ -17,3 +17,4 @@ log.txt
 # --- Environment files ---
 .env
 .env.*.local
+notes.md
