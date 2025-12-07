@@ -13,6 +13,7 @@ import cookieParser from 'cookie-parser'
 const port=5000
 const app=express()
 app.use(express.json())
+app.use(express.urlencoded())
 app.use(cookieParser())
 configDotenv()
 connectDb().then(()=>{
@@ -27,5 +28,5 @@ app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/profile",authMiddleware,profileRouter)
 app.use("/api/v1/request",authMiddleware,requestRouter)
 app.use("/api/v1/user",authMiddleware,userRouter)
-app.use("api/v1/feed",authMiddleware,feedRouter)
+app.use("/api/v1/feed",authMiddleware,feedRouter)
 
