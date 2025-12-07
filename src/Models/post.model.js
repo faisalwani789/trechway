@@ -3,7 +3,8 @@ const postSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required:true
+        required:true,
+        unique:true
     },
     images: {
         type: [String],
@@ -24,6 +25,14 @@ const postSchema = new mongoose.Schema({
 
     tags: {
         type: [String]
+    },
+    dailyCount:{
+        type:Number,
+        default:0
+    },
+    lastReset:{
+        type:Date,
+        default:Date.now
     }
 
 }, { timestamps: true })
