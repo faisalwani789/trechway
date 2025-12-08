@@ -14,6 +14,7 @@ const postSchema = new mongoose.Schema({
     metrics: {
         likes: {
             type: Number,
+            default:0
         },
         comments: {
             type: [String]
