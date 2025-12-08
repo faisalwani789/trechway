@@ -26,14 +26,7 @@ const postSchema = new mongoose.Schema({
     tags: {
         type: [String]
     },
-    dailyCount:{
-        type:Number,
-        default:0
-    },
-    lastReset:{
-        type:Date,
-        default:Date.now
-    }
+   
 
 }, { timestamps: true })
 const Post = mongoose.model('Post', postSchema)
