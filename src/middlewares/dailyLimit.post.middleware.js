@@ -5,6 +5,7 @@ export function checkDailyLimit(limit) {
     return async (req, res, next) => {
         const { id } = req.user
         const today = new Date().toISOString().slice(0, 10)
+        // console.log(today)
         try {
             const result = await PostActivity.findOneAndUpdate({
                 userId: id,
@@ -19,18 +20,22 @@ export function checkDailyLimit(limit) {
                     upsert: false,
                 }
             )
+            
             if (result) return next()
             const existing = await PostActivity.findOne({ userId:id, date: today })
+    
             if (existing) return res.status(429).send('daily Limit reached')
 
             //if no existing create one for the user
-            await PostActivity.create({
+            const newPost=await PostActivity.create({
                 userId:id,
                 date: today,
-                count: 1
+                dailyCount: 1
             })
+           
             return next()
         } catch (error) {
+            // console.log(error)
             res.status(429).send(error.message)
         }
     }
